@@ -1,0 +1,122 @@
+/* ============================================================
+   Agentic OS — COLOR SYSTEM
+   "Near-black blue room" — a dark HUD lit by one cyan glow (LIVE)
+   and one warm gold (a HUMAN decides). Cinematic, never neon-rainbow.
+   ============================================================ */
+:root {
+  /* --- Room / surfaces (cool near-black blue, layered by elevation) --- */
+  --room-000: #080B11;   /* deepest inset / behind everything */
+  --room-050: #0A0D14;   /* app background ("the room") */
+  --room-100: #10141D;   /* panel */
+  --room-150: #151A24;   /* raised panel */
+  --room-200: #1A1F2B;   /* raised / interactive rest */
+  --room-250: #212736;   /* hover raise */
+  --room-300: #2A3141;   /* pressed / active raise */
+
+  /* --- Borders / hairlines — GLASS default: cool light-alpha (Vision-UI style).
+         body.ao-solid restores the opaque machined hex hairlines. --- */
+  --line-soft:   rgba(148, 190, 222, 0.09);
+  --line:        rgba(148, 190, 222, 0.14);
+  --line-strong: rgba(148, 190, 222, 0.26);
+
+  /* --- Ink (text) --- */
+  --ink-000: #F3F6FB;  /* max contrast headings */
+  --ink-100: #E4EAF3;  /* primary text */
+  --ink-200: #AEB8CA;  /* secondary text */
+  --ink-300: #7A8598;  /* muted / meta */
+  --ink-400: #545E70;  /* faint / disabled / axis */
+
+  /* --- LIVE accent: holographic cyan (primary, "this is alive/running") --- */
+  --cyan-050: #EAFBFF;
+  --cyan-300: #8BE4F7;
+  --cyan-400: #4FD1F0;   /* THE live accent */
+  --cyan-500: #2CB6DA;
+  --cyan-600: #1B8AAB;
+  --cyan-glow: rgba(79, 209, 240, 0.55);
+  --cyan-wash: rgba(79, 209, 240, 0.08);
+
+  /* --- COMMAND accent: gold ("a human fires this" — manual, approvals) --- */
+  --gold-300: #F6D188;
+  --gold-400: #EDB94F;   /* THE command accent */
+  --gold-500: #D49E30;
+  --gold-glow: rgba(237, 185, 79, 0.45);
+  --gold-wash: rgba(237, 185, 79, 0.09);
+
+  /* --- Status --- */
+  --ok-400:    #46D6A0;  /* healthy / done */
+  --ok-glow:   rgba(70, 214, 160, 0.45);
+  --ok-wash:   rgba(70, 214, 160, 0.10);
+  --bad-400:   #F26D6D;  /* blocked / error */
+  --bad-glow:  rgba(242, 109, 109, 0.45);
+  --bad-wash:  rgba(242, 109, 109, 0.10);
+  --warn-400:  #EDB94F;  /* warning (shares gold) */
+
+  /* --- Workflow TYPE chips — four must stay distinguishable --- */
+  --type-manual:  #EDB94F;  /* MANUAL  — gold, a human fires it */
+  --type-manual-wash: rgba(237, 185, 79, 0.12);
+  --type-skill:   #4FD1F0;  /* SKILL   — cyan */
+  --type-skill-wash:  rgba(79, 209, 240, 0.12);
+  --type-routine: #8B93F7;  /* ROUTINE — indigo, scheduled */
+  --type-routine-wash: rgba(139, 147, 247, 0.12);
+  --type-agent:   #5EE0A8;  /* AGENT   — teal-green, autonomous */
+  --type-agent-wash:  rgba(94, 224, 168, 0.12);
+
+  /* ---------- GLASS SURFACES (Vision-UI-style, Jarvis-hued) ----------
+     The default look: translucent blurred cards floating over an ambient
+     glow room. body.ao-solid switches back to flat machined surfaces. */
+  --glass-card: linear-gradient(127deg, rgba(11, 17, 33, 0.88) 28%, rgba(13, 20, 40, 0.52) 100%); /* @kind color */
+  --glass-raised: rgba(21, 30, 52, 0.55);
+  --glass-inner: rgba(8, 13, 27, 0.62);   /* nested tiles inside cards */
+  --glass-border: rgba(148, 190, 222, 0.13);
+  --glass-border-strong: rgba(148, 190, 222, 0.24);
+
+  /* Ambient room: near-black blue lit from below by a cyan/indigo glow */
+  --bg-ambient:
+    radial-gradient(90% 70% at 78% 108%, rgba(27, 60, 105, 0.55) 0%, rgba(13, 26, 52, 0.35) 42%, rgba(7, 10, 16, 0) 100%),
+    radial-gradient(60% 46% at 12% -10%, rgba(31, 96, 122, 0.28) 0%, rgba(7, 10, 16, 0) 100%),
+    linear-gradient(#070A10, #070A10);
+
+  /* ---------- SEMANTIC ALIASES ---------- */
+  --bg-app:        var(--room-050);
+  --bg-panel:      var(--room-100);
+  --bg-raised:     var(--room-200);
+  --bg-inset:      var(--room-000);
+  --bg-hover:      var(--room-250);
+  --bg-active:     var(--room-300);
+
+  /* Card recipe — what Panel/cards actually consume (glass by default) */
+  --card-bg:       var(--glass-card);
+  --card-inner:    var(--glass-inner);
+  --card-border-c: var(--glass-border);
+  --card-border-strong-c: var(--glass-border-strong);
+  --card-blur:     blur(24px) saturate(1.25); /* @kind other */
+
+  --text-heading:  var(--ink-000);
+  --text-body:     var(--ink-100);
+  --text-secondary:var(--ink-200);
+  --text-muted:    var(--ink-300);
+  --text-faint:    var(--ink-400);
+
+  --border-default: var(--line);
+  --border-soft:    var(--line-soft);
+  --border-strong:  var(--line-strong);
+
+  --accent-live:    var(--cyan-400);
+  --accent-command: var(--gold-400);
+  --focus-ring:     var(--cyan-400);
+
+  --surface-card:   var(--room-100);
+}
+
+/* SOLID mode — the original flat machined HUD. Toggle by adding .ao-solid to <body>. */
+body.ao-solid {
+  --line-soft:   #1D2431;
+  --line:        #262D3D;
+  --line-strong: #333B4E;
+  --card-bg:       linear-gradient(var(--room-100), var(--room-100));
+  --card-inner:    var(--room-000);
+  --card-border-c: var(--line);
+  --card-border-strong-c: var(--line-strong);
+  --card-blur:     none; /* @kind other */
+  --bg-ambient:    linear-gradient(var(--room-050), var(--room-050));
+}

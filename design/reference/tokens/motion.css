@@ -1,0 +1,68 @@
+/* ============================================================
+   Agentic OS — MOTION
+   Generous but precise. Linear-app polish: quick, eased, purposeful.
+   Ambient life (pulse/tick/stream) on LIVE things only.
+   ============================================================ */
+:root {
+  /* Durations */
+  --dur-instant: 80ms;  /* @kind other */
+  --dur-fast:    140ms; /* @kind other */
+  --dur-base:    220ms; /* @kind other */
+  --dur-slow:    360ms; /* @kind other */
+  --dur-boot:    600ms;   /* @kind other */
+
+  /* Easing */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);      /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);      /* @kind other */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* @kind other */
+  --ease-hud:    cubic-bezier(0.16, 1, 0.3, 1);       /* @kind other */
+
+  /* Stagger step for panel reveals */
+  --stagger: 60ms; /* @kind other */
+}
+
+/* ---- Signature keyframes (available system-wide) ---- */
+
+/* pulsing glow for RUNNING things */
+@keyframes ao-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+@keyframes ao-glow-breathe {
+  0%, 100% { box-shadow: var(--glow-live); }
+  50%      { box-shadow: var(--glow-live-lg); }
+}
+
+/* HUD panel entrance — rise + fade */
+@keyframes ao-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* live dot ping */
+@keyframes ao-ping {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* streaming text caret */
+@keyframes ao-caret {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* sweep highlight across a bar (progress / boot) */
+@keyframes ao-sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(300%); }
+}
+
+/* spin for long-running indicator */
+@keyframes ao-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}

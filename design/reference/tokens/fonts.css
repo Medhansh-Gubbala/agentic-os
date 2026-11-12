@@ -1,0 +1,11 @@
+/* Agentic OS — Webfonts
+ * NOTE: Loaded from Google Fonts CDN (@import) rather than self-hosted binaries,
+ * because the build environment cannot download font files. If you want the fonts
+ * self-hosted for offline/production use, drop the .woff2 files in tokens/fonts/
+ * and replace this @import with local @font-face rules.
+ *
+ * Space Grotesk  — display / UI headings (technical, squared, premium HUD feel)
+ * Geist          — body / reading text (neutral, high-legibility)
+ * JetBrains Mono — ALL live data: numbers, timestamps, console, tags, scope
+ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');

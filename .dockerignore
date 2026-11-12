@@ -1,0 +1,7 @@
+node_modules
+.next
+.git
+data/app.db*
+.env*
+*.tsbuildinfo
+design/reference

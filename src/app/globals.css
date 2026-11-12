@@ -1,0 +1,356 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/*
+ ---break---
+ */
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Agentic OS theme v2 — ported from the Claude Design kit (design/reference/,
+ * project fa0359d6). DESIGN.md governs. Glass surfaces over an ambient glow
+ * room; cyan = LIVE, gold = a HUMAN decides. body.ao-solid = flat HUD mode.
+ * Default Tailwind palette/typography/radii are wiped: token utilities only.
+ */
+@theme {
+  /* wipe defaults so bg-indigo-600 etc. fail the build */
+  --color-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --font-*: initial;
+
+  /* room scale — cool near-black blue, layered by elevation */
+  --color-room-000: #080b11;
+  --color-room-050: #0a0d14;
+  --color-room-100: #10141d;
+  --color-room-150: #151a24;
+  --color-room-200: #1a1f2b;
+  --color-room-250: #212736;
+  --color-room-300: #2a3141;
+
+  /* ink (text) scale */
+  --color-neutral-200: #aeb8ca; /* legacy alias for ink-200 */
+  --color-ink-000: #f3f6fb;
+  --color-ink-100: #e4eaf3;
+  --color-ink-200: #aeb8ca;
+  --color-ink-300: #7a8598;
+  --color-ink-400: #545e70;
+
+  /* LIVE accent — holographic cyan */
+  --color-cyan-050: #eafbff;
+  --color-cyan-300: #8be4f7;
+  --color-cyan: #4fd1f0;
+  --color-cyan-hover: #2cb6da;
+  --color-cyan-600: #1b8aab;
+  --color-cyan-fg: #04222b;
+  --color-cyan-glow: rgba(79, 209, 240, 0.55);
+  --color-cyan-wash: rgba(79, 209, 240, 0.08);
+
+  /* COMMAND accent — gold, a human fires this */
+  --color-gold-300: #f6d188;
+  --color-gold: #edb94f;
+  --color-gold-hover: #d49e30;
+  --color-gold-fg: #2b1e05;
+  --color-gold-glow: rgba(237, 185, 79, 0.45);
+  --color-gold-wash: rgba(237, 185, 79, 0.09);
+
+  /* workflow taxonomy — chips/borders only (kit mapping) */
+  --color-tax-manual: #edb94f;
+  --color-tax-skill: #4fd1f0;
+  --color-tax-routine: #8b93f7;
+  --color-tax-agent: #5ee0a8;
+  --color-tax-manual-wash: rgba(237, 185, 79, 0.12);
+  --color-tax-skill-wash: rgba(79, 209, 240, 0.12);
+  --color-tax-routine-wash: rgba(139, 147, 247, 0.12);
+  --color-tax-agent-wash: rgba(94, 224, 168, 0.12);
+
+  /* semantic surfaces + status (legacy names kept, values remapped) */
+  --color-bg: #0a0d14;
+  --color-surface: #10141d;
+  --color-raised: #1a1f2b;
+  --color-hover: #212736;
+  --color-active: #2a3141;
+  --color-inset: #080b11;
+  --color-border: rgba(148, 190, 222, 0.14);
+  --color-border-soft: rgba(148, 190, 222, 0.09);
+  --color-border-strong: rgba(148, 190, 222, 0.26);
+  --color-fg: #e4eaf3;
+  --color-heading: #f3f6fb;
+  --color-dim: #7a8598;
+  --color-faint: #545e70;
+  --color-success: #46d6a0;
+  --color-success-glow: rgba(70, 214, 160, 0.45);
+  --color-success-wash: rgba(70, 214, 160, 0.1);
+  --color-warn: #edb94f;
+  --color-danger: #f26d6d;
+  --color-danger-glow: rgba(242, 109, 109, 0.45);
+  --color-danger-wash: rgba(242, 109, 109, 0.1);
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* type — Space Grotesk display / Geist body / JetBrains Mono live data */
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* desktop-app density scale (kit) */
+  --text-micro: 10px;
+  --text-tiny: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 26px;
+  --text-2xl: 34px;
+  --text-3xl: 46px;
+
+  /* soft glass radii (kit) */
+  --radius-none: 0;
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* motion */
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- non-Tailwind design vars (glass recipe, glows, layout) ---------- */
+:root {
+  --line-soft: rgba(148, 190, 222, 0.09);
+  --line: rgba(148, 190, 222, 0.14);
+  --line-strong: rgba(148, 190, 222, 0.26);
+
+  --glass-card: linear-gradient(127deg, rgba(11, 17, 33, 0.88) 28%, rgba(13, 20, 40, 0.52) 100%);
+  --glass-raised: rgba(21, 30, 52, 0.55);
+  --glass-inner: rgba(8, 13, 27, 0.62);
+  --glass-border: rgba(148, 190, 222, 0.13);
+  --glass-border-strong: rgba(148, 190, 222, 0.24);
+
+  --card-bg: var(--glass-card);
+  --card-inner: var(--glass-inner);
+  --card-border-c: var(--glass-border);
+  --card-border-strong-c: var(--glass-border-strong);
+  --card-blur: blur(24px) saturate(1.25);
+
+  --bg-ambient:
+    radial-gradient(90% 70% at 78% 108%, rgba(27, 60, 105, 0.55) 0%, rgba(13, 26, 52, 0.35) 42%, rgba(7, 10, 16, 0) 100%),
+    radial-gradient(60% 46% at 12% -10%, rgba(31, 96, 122, 0.28) 0%, rgba(7, 10, 16, 0) 100%),
+    linear-gradient(#070a10, #070a10);
+
+  --shadow-glass: 0 4px 7px -1px rgba(0, 0, 0, 0.22), 0 18px 44px -18px rgba(0, 0, 0, 0.5);
+  --shadow-pop: 0 20px 60px rgba(0, 0, 0, 0.65);
+  --inset-top-hi: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --glow-live: 0 0 0 1px rgba(79, 209, 240, 0.4), 0 0 18px -2px var(--color-cyan-glow);
+  --glow-live-lg: 0 0 0 1px rgba(79, 209, 240, 0.5), 0 0 34px -4px var(--color-cyan-glow);
+  --glow-command: 0 0 0 1px rgba(237, 185, 79, 0.4), 0 0 16px -3px var(--color-gold-glow);
+  --glow-ok: 0 0 0 1px rgba(70, 214, 160, 0.4), 0 0 16px -3px var(--color-success-glow);
+  --glow-bad: 0 0 0 1px rgba(242, 109, 109, 0.4), 0 0 16px -3px var(--color-danger-glow);
+
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-hud: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --sidebar-w-closed: 76px;
+  --sidebar-w-open: 240px;
+  --tracking-hud: 0.16em;
+  --tracking-mono: 0.02em;
+}
+
+/* SOLID mode — flat machined HUD. Toggle by adding .ao-solid to <body>. */
+body.ao-solid {
+  --line-soft: #1d2431;
+  --line: #262d3d;
+  --line-strong: #333b4e;
+  --card-bg: linear-gradient(var(--color-room-100), var(--color-room-100));
+  --card-inner: var(--color-room-000);
+  --card-border-c: var(--line);
+  --card-border-strong-c: var(--line-strong);
+  --card-blur: none;
+  --bg-ambient: linear-gradient(var(--color-room-050), var(--color-room-050));
+}
+
+body {
+  background: var(--bg-ambient);
+  background-color: #070a10;
+  background-attachment: fixed;
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-heading);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: rgba(79, 209, 240, 0.28);
+  color: var(--color-ink-000);
+}
+
+/* thin HUD scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-room-300) transparent;
+}
+
+/* HUD eyebrow label utility */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+
+/* Ambient HUD grid — faint room texture for hero surfaces */
+.hud-grid {
+  background-image:
+    linear-gradient(rgba(79, 209, 240, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 209, 240, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---------- signature keyframes (kit) ---------- */
+@keyframes ao-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+@keyframes ao-glow-breathe {
+  0%, 100% { box-shadow: var(--glow-live); }
+  50% { box-shadow: var(--glow-live-lg); }
+}
+@keyframes ao-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ao-ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  70%, 100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes ao-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes ao-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(300%); }
+}
+@keyframes ao-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* legacy alias — running workflow buttons / streaming console */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-cyan-glow); }
+  50% { box-shadow: 0 0 10px 2px var(--color-cyan-glow); }
+}
+.animate-pulse-glow {
+  animation: ao-glow-breathe 1.8s var(--ease-in-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}
+/*
+ ---break---
+ */
+@theme inline {
+  --font-heading: var(--font-space-grotesk);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+}
+/*
+ ---break---
+ */
+:root {
+  --background: #0a0d14;
+  --foreground: #e4eaf3;
+  --card: #10141d;
+  --card-foreground: #e4eaf3;
+  --popover: #151a24;
+  --popover-foreground: #e4eaf3;
+  --primary: #4fd1f0;
+  --primary-foreground: #04222b;
+  --secondary: #1a1f2b;
+  --secondary-foreground: #e4eaf3;
+  --muted: #1a1f2b;
+  --muted-foreground: #7a8598;
+  --accent: rgba(79, 209, 240, 0.12);
+  --accent-foreground: #e4eaf3;
+  --destructive: #f26d6d;
+  --input: rgba(148, 190, 222, 0.26);
+  --ring: #4fd1f0;
+  --chart-1: #4fd1f0;
+  --chart-2: #edb94f;
+  --chart-3: #8b93f7;
+  --chart-4: #46d6a0;
+  --chart-5: #5ee0a8;
+  --radius: 14px;
+  --sidebar: #10141d;
+  --sidebar-foreground: #e4eaf3;
+  --sidebar-primary: #4fd1f0;
+  --sidebar-primary-foreground: #04222b;
+  --sidebar-accent: #1a1f2b;
+  --sidebar-accent-foreground: #e4eaf3;
+  --sidebar-border: rgba(148, 190, 222, 0.14);
+  --sidebar-ring: #4fd1f0;
+}
+/*
+ ---break---
+ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}

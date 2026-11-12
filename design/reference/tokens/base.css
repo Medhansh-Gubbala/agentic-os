@@ -1,0 +1,62 @@
+/* ============================================================
+   Agentic OS — BASE resets & primitives
+   ============================================================ */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg-ambient);
+  background-color: #070A10;
+  background-attachment: fixed;
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--text-heading);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+  font-weight: var(--fw-semibold);
+}
+
+/* Links — always defined so editor-added links aren't browser-blue */
+a { color: var(--accent-live); text-decoration: none; transition: color var(--dur-fast) var(--ease-out); }
+a:hover { color: var(--cyan-300); }
+
+code, kbd, .mono { font-family: var(--font-mono); font-feature-settings: "tnum" 1; }
+
+/* HUD eyebrow label utility */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Custom scrollbars — thin, dark, cyan on hover */
+* { scrollbar-width: thin; scrollbar-color: var(--room-300) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--room-300);
+  border-radius: var(--r-pill);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--room-250); background-clip: content-box; }
+
+::selection { background: rgba(79,209,240,0.28); color: var(--ink-000); }
+
+/* Ambient HUD grid — apply .hud-grid to any surface for the faint room texture */
+.hud-grid {
+  background-image:
+    linear-gradient(rgba(79,209,240,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,209,240,0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
